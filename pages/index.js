@@ -71,29 +71,58 @@ function TimeCircle(props) {
   )
 }
 
-function PauseButton({ timerRunning, setTimerRunning, isStarted, setStarted }) {
+function PauseButton({setTimerLength,isSelected, timerFinished,setTimeRemain,setPomodoroEnd, timerRunning, setTimerRunning, isStarted, setStarted,setTimerFinished, }) {
   const handleclick = () => {
-    if (timerRunning == true && isStarted == true) {
+    if (timerRunning == true && isStarted == true && timerFinished == false) {
       setTimerRunning(false)
-    } else if (timerRunning == false && isStarted == false) {
+    } else if (timerRunning == false && isStarted == false && timerFinished == false) {
       setTimerRunning(true)
       setStarted(true)
-    } else if (timerRunning == false && isStarted == true) {
+    } else if (timerRunning == false && isStarted == true && timerFinished == false) {
       setTimerRunning(true)
-    } else if (timerRunning == true && isStarted == true) {
+    } else if (timerRunning == true && isStarted == true && timerFinished == false) {
       setTimerRunning(false)
+    } else if (timerFinished == true) {
+      if (isSelected == "Pomodoro") {
+        setTimerLength(1500000)
+        setTimeRemain(new Date(1500000))
+        setPomodoroEnd(new Date(new Date().getTime() + 1500000))
+        setStarted(false)
+        setTimerRunning(false)
+        setTimerFinished(false)
+
+      } else if (isSelected == "Short  Break") {
+        setTimerLength(300000)
+        setTimeRemain(new Date(300000))
+        setPomodoroEnd(new Date(new Date().getTime() + 300000))
+        setStarted(false)
+        setTimerRunning(false)
+        setTimerFinished(false)
+
+      } else if (isSelected == "Long Break") {
+        setTimerLength(900000)
+        setTimeRemain(new Date(900000))
+        setPomodoroEnd(new Date(new Date().getTime() + 900000))
+        setStarted(false)
+        setTimerRunning(false)
+        setTimerFinished(false)
+
+      }
+
     }
   }
 
   let button
 
-  if (timerRunning == true && isStarted == true) {
+  if (timerRunning == true && isStarted == true && timerFinished == false) {
     button = "pause"
-  } else if (timerRunning == false && isStarted == false) {
+  } else if (timerRunning == false && isStarted == false && timerFinished == false) {
     button = "start"
-  } else if (timerRunning == false && isStarted == true) {
+  } else if (timerRunning == false && isStarted == true && timerFinished == false) {
     button = "resume"
 
+  } else if (timerFinished == true) {
+    button = "reset"
   }
 
 
@@ -106,7 +135,7 @@ function PauseButton({ timerRunning, setTimerRunning, isStarted, setStarted }) {
   )
 }
 
-function ToggleButton({ text, selectedText, setSelected,setTimeRemain, setTimerRunning, setStarted, setTimerLength,setPomodoroEnd }) {
+function ToggleButton({ setTimerFinished, text, selectedText, setSelected, setTimeRemain, setTimerRunning, setStarted, setTimerLength, setPomodoroEnd }) {
   const handleclick = () => {
     setSelected(text)
 
@@ -116,6 +145,7 @@ function ToggleButton({ text, selectedText, setSelected,setTimeRemain, setTimerR
       setPomodoroEnd(new Date(new Date().getTime() + 1500000))
       setStarted(false)
       setTimerRunning(false)
+      setTimerFinished(false)
 
     } else if (text == "Short  Break") {
       setTimerLength(300000)
@@ -123,13 +153,16 @@ function ToggleButton({ text, selectedText, setSelected,setTimeRemain, setTimerR
       setPomodoroEnd(new Date(new Date().getTime() + 300000))
       setStarted(false)
       setTimerRunning(false)
+      setTimerFinished(false)
 
     } else if (text == "Long Break") {
-      setTimerLength(900000) 
+      setTimerLength(900000)
       setTimeRemain(new Date(900000))
       setPomodoroEnd(new Date(new Date().getTime() + 900000))
       setStarted(false)
       setTimerRunning(false)
+      setTimerFinished(false)
+
     }
 
   }
@@ -150,7 +183,7 @@ function ToggleButton({ text, selectedText, setSelected,setTimeRemain, setTimerR
 
 }
 
-function ToggleBar({ choice, isSelected, setSelected, setTimeRemain, setTimerRunning, setStarted, setTimerLength,setPomodoroEnd }) {
+function ToggleBar({ setTimerFinished, choice, isSelected, setSelected, setTimeRemain, setTimerRunning, setStarted, setTimerLength, setPomodoroEnd }) {
 
   return (
     <div className="mx-auto  neumorphismSize-lg  w-auto  rounded-full nm-concave-blue-900-xl m-10 ">
@@ -158,13 +191,14 @@ function ToggleBar({ choice, isSelected, setSelected, setTimeRemain, setTimerRun
         <div className="flex">
           {choice.map(elem => <ToggleButton text={elem}
             selectedText={isSelected}
-            setSelected={setSelected} 
-            setTimeRemain = {setTimeRemain}
-            setTimerRunning = {setTimerRunning}
-            setStarted = {setStarted}
-            setTimerLength = {setTimerLength}
-            setPomodoroEnd = {setPomodoroEnd}
-            />)}
+            setSelected={setSelected}
+            setTimeRemain={setTimeRemain}
+            setTimerRunning={setTimerRunning}
+            setStarted={setStarted}
+            setTimerLength={setTimerLength}
+            setPomodoroEnd={setPomodoroEnd}
+            setTimerFinished={setTimerFinished}
+          />)}
         </div>
       </div>
     </div>
@@ -172,59 +206,48 @@ function ToggleBar({ choice, isSelected, setSelected, setTimeRemain, setTimerRun
 }
 
 
-function Pomodoro({ isSelected, timeRemain, setTimeRemain, timerRunning, setTimerRunning, isStarted, setStarted, pomodoroEnd, setPomodoroEnd, timerLength, setTimerLength }) {
+function Pomodoro({ setTimerFinished, timerFinished, isSelected, timeRemain, setTimeRemain, timerRunning, setTimerRunning, isStarted, setStarted, pomodoroEnd, setPomodoroEnd, timerLength, setTimerLength }) {
 
   const tick = () => {
     if (timerRunning == true) {
-      setTimeRemain(new Date(pomodoroEnd - new Date()))
+      const timeRemain = new Date(pomodoroEnd - new Date())
+      if (timeRemain > 0) {
+        setTimeRemain(timeRemain)
+      } else {
+        setTimerRunning(false)
+        setTimerFinished(true)
+        setStarted(false)
+      }
+
     } else {
       setPomodoroEnd(new Date(new Date().getTime() + timeRemain.getTime()))
     }
 
   }
 
-
-  /*
-    useEffect(() => {
-  
-      if (isSelected == "Pomodoro") {
-        timerLength = 1500000
-        setTimeRemain(new Date(1500000))
-        setPomodoroEnd(new Date(new Date().getTime() + 1500000))
-        setStarted(false)
-        setTimerRunning(false)
-  
-      } else if (isSelected == "Short  Break") {
-        timerLength = 300000
-        setTimeRemain(new Date(300000))
-        setPomodoroEnd(new Date(new Date().getTime() + 300000))
-        setStarted(false)
-        setTimerRunning(false)
-  
-      } else if (isSelected == "Long Break") {
-        timerLength = 900000
-        setTimeRemain(new Date(900000))
-        setPomodoroEnd(new Date(new Date().getTime() + 900000))
-        setStarted(false)
-        setTimerRunning(false)
-      }
-  
-  
-    }, [isSelected, timerRunning])
-  
-    */
-
   useEffect(() => {
     const interval = setInterval(tick, 250);
     return () => clearInterval(interval);
-  }, [timerRunning, isSelected]);
+  }, [timerRunning, isSelected,timerFinished]);
 
   return (
     <React.Fragment>
       <TimeCircle timeRemain={timeRemain} timeFull={timerLength} />
       <div className=" h-full w-full flex justify-center flex-col z-10">
         <ShowTime time={timeRemain} />
-        <PauseButton timerRunning={timerRunning} setTimerRunning={setTimerRunning} isStarted={isStarted} setStarted={setStarted} />
+        <PauseButton timerRunning={timerRunning}
+          setTimerRunning={setTimerRunning}
+          isStarted={isStarted}
+          setStarted={setStarted}
+          timerFinished={timerFinished}
+          isSelected={isSelected}
+          setTimerLength = {setTimerLength}
+          setTimeRemain = {setTimeRemain}
+          setPomodoroEnd = {setPomodoroEnd}
+          setTimerFinished ={setTimerFinished}
+
+          
+        />
       </div>
     </React.Fragment >
   )
@@ -233,6 +256,7 @@ function Pomodoro({ isSelected, timeRemain, setTimeRemain, timerRunning, setTime
 
 export default function Home() {
   const choice = ["Pomodoro", "Short  Break", "Long Break"]
+  const [timerFinished, setTimerFinished] = useState(false)
   const [isSelected, setSelected] = useState(choice[0])
   const [timeRemain, setTimeRemain] = useState(new Date(1500000))
   const [timerRunning, setTimerRunning] = useState(false)
@@ -251,6 +275,8 @@ export default function Home() {
           setPomodoroEnd={setPomodoroEnd}
           setStarted={setStarted}
           setTimerRunning={setTimerRunning}
+          setTimerFinished={setTimerFinished}
+
         />
         <div className="mx-auto  neumorphismSize-lg  h-96 w-96  rounded-full nm-concave-blue-900-xl ">
           <div className=" neumorphismSize-lg  h-96 w-96  rounded-full bg-gradient-to-r from-blue-900 to-blue-800 ">
@@ -266,6 +292,8 @@ export default function Home() {
                 setPomodoroEnd={setPomodoroEnd}
                 timerLength={timerLength}
                 setTimerLength={setTimerLength}
+                setTimerFinished={setTimerFinished}
+                timerFinished={timerFinished}
               />
             </div>
           </div>
