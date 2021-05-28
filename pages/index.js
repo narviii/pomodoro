@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import {settings} from '../components/settings'
 //import "tailwindcss/tailwind.css";
 
 const zeroPad = (num, places) => String(num).padStart(places, '0')
@@ -84,25 +85,25 @@ function PauseButton({setTimerLength,isSelected, timerFinished,setTimeRemain,set
       setTimerRunning(false)
     } else if (timerFinished == true) {
       if (isSelected == "Pomodoro") {
-        setTimerLength(1500000)
-        setTimeRemain(new Date(1500000))
-        setPomodoroEnd(new Date(new Date().getTime() + 1500000))
+        setTimerLength(settings["Pomodoro"])
+        setTimeRemain(new Date(settings["Pomodoro"]))
+        setPomodoroEnd(new Date(new Date().getTime() + settings["Pomodoro"]))
         setStarted(false)
         setTimerRunning(false)
         setTimerFinished(false)
 
       } else if (isSelected == "Short  Break") {
-        setTimerLength(300000)
-        setTimeRemain(new Date(300000))
-        setPomodoroEnd(new Date(new Date().getTime() + 300000))
+        setTimerLength(settings["Short Break"])
+        setTimeRemain(new Date(settings["Short Break"]))
+        setPomodoroEnd(new Date(new Date().getTime() + settings["Short Break"]))
         setStarted(false)
         setTimerRunning(false)
         setTimerFinished(false)
 
       } else if (isSelected == "Long Break") {
-        setTimerLength(900000)
-        setTimeRemain(new Date(900000))
-        setPomodoroEnd(new Date(new Date().getTime() + 900000))
+        setTimerLength(settings["Long Break"])
+        setTimeRemain(new Date(settings["Long Break"]))
+        setPomodoroEnd(new Date(new Date().getTime() + settings["Long Break"]))
         setStarted(false)
         setTimerRunning(false)
         setTimerFinished(false)
@@ -140,25 +141,25 @@ function ToggleButton({ setTimerFinished, text, selectedText, setSelected, setTi
     setSelected(text)
 
     if (text == "Pomodoro") {
-      setTimerLength(1500000)
-      setTimeRemain(new Date(1500000))
-      setPomodoroEnd(new Date(new Date().getTime() + 1500000))
+      setTimerLength(settings["Pomodoro"])
+      setTimeRemain(new Date(settings["Pomodoro"]))
+      setPomodoroEnd(new Date(new Date().getTime() + settings["Pomodoro"]))
       setStarted(false)
       setTimerRunning(false)
       setTimerFinished(false)
 
     } else if (text == "Short  Break") {
-      setTimerLength(300000)
-      setTimeRemain(new Date(300000))
-      setPomodoroEnd(new Date(new Date().getTime() + 300000))
+      setTimerLength(settings["Short Break"])
+      setTimeRemain(new Date(settings["Short Break"]))
+      setPomodoroEnd(new Date(new Date().getTime() + settings["Short Break"]))
       setStarted(false)
       setTimerRunning(false)
       setTimerFinished(false)
 
     } else if (text == "Long Break") {
-      setTimerLength(900000)
-      setTimeRemain(new Date(900000))
-      setPomodoroEnd(new Date(new Date().getTime() + 900000))
+      setTimerLength(settings["Long Break"])
+      setTimeRemain(new Date(settings["Long Break"]))
+      setPomodoroEnd(new Date(new Date().getTime() + settings["Long Break"]))
       setStarted(false)
       setTimerRunning(false)
       setTimerFinished(false)
