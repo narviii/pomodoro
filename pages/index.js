@@ -267,6 +267,11 @@ export default function Home() {
   const [pomodoroEnd, setPomodoroEnd] = useState(new Date(new Date().getTime() + 1500000))
   const [timerLength, setTimerLength] = useState(1500000)
   const [notificationTitle, setNotificationTitle] = useState("")
+  const [audio, setAudio] = useState(null)
+  
+  
+  
+  
 
   useEffect(() => {
     if (!("Notification" in window)) {
@@ -274,6 +279,8 @@ export default function Home() {
     } else {
       Notification.requestPermission();
     }
+    setAudio(new Audio('/got-it-done-613.mp3'))
+
   }, [])
 
   useEffect(() => {
@@ -289,12 +296,12 @@ export default function Home() {
           new Notification('Short break finished!!!')
           break
       }
-      const audio = new Audio('/got-it-done-613.mp3');
+
       audio.play();
     }
 
 
-  }, [timerFinished,isSelected])
+  }, [timerFinished, isSelected])
 
   return (
     <React.Fragment>
