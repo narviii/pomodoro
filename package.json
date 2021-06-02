@@ -13,6 +13,7 @@
     "postcss": "^8.2.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-web-notification": "^0.8.0",
     "tailwindcss": "^2.1.1",
     "tailwindcss-neumorphism": "^0.1.0"
   },

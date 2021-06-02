@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {settings} from '../components/settings'
+
+import { settings } from '../components/settings'
 //import "tailwindcss/tailwind.css";
 
 const zeroPad = (num, places) => String(num).padStart(places, '0')
@@ -72,7 +73,7 @@ function TimeCircle(props) {
   )
 }
 
-function PauseButton({setTimerLength,isSelected, timerFinished,setTimeRemain,setPomodoroEnd, timerRunning, setTimerRunning, isStarted, setStarted,setTimerFinished, }) {
+function PauseButton({ setTimerLength, isSelected, timerFinished, setTimeRemain, setPomodoroEnd, timerRunning, setTimerRunning, isStarted, setStarted, setTimerFinished, }) {
   const handleclick = () => {
     if (timerRunning == true && isStarted == true && timerFinished == false) {
       setTimerRunning(false)
@@ -215,6 +216,7 @@ function Pomodoro({ setTimerFinished, timerFinished, isSelected, timeRemain, set
       if (timeRemain > 0) {
         setTimeRemain(timeRemain)
       } else {
+
         setTimerRunning(false)
         setTimerFinished(true)
         setStarted(false)
@@ -229,7 +231,7 @@ function Pomodoro({ setTimerFinished, timerFinished, isSelected, timeRemain, set
   useEffect(() => {
     const interval = setInterval(tick, 250);
     return () => clearInterval(interval);
-  }, [timerRunning, isSelected,timerFinished]);
+  }, [timerRunning, isSelected, timerFinished]);
 
   return (
     <React.Fragment>
@@ -242,12 +244,12 @@ function Pomodoro({ setTimerFinished, timerFinished, isSelected, timeRemain, set
           setStarted={setStarted}
           timerFinished={timerFinished}
           isSelected={isSelected}
-          setTimerLength = {setTimerLength}
-          setTimeRemain = {setTimeRemain}
-          setPomodoroEnd = {setPomodoroEnd}
-          setTimerFinished ={setTimerFinished}
+          setTimerLength={setTimerLength}
+          setTimeRemain={setTimeRemain}
+          setPomodoroEnd={setPomodoroEnd}
+          setTimerFinished={setTimerFinished}
 
-          
+
         />
       </div>
     </React.Fragment >
@@ -264,6 +266,35 @@ export default function Home() {
   const [isStarted, setStarted] = useState(false)
   const [pomodoroEnd, setPomodoroEnd] = useState(new Date(new Date().getTime() + 1500000))
   const [timerLength, setTimerLength] = useState(1500000)
+  const [notificationTitle, setNotificationTitle] = useState("")
+
+  useEffect(() => {
+    if (!("Notification" in window)) {
+      console.log("This browser does not support desktop notification");
+    } else {
+      Notification.requestPermission();
+    }
+  }, [])
+
+  useEffect(() => {
+    if (timerFinished == true) {
+      switch (isSelected) {
+        case choice[0]:
+          new Notification('Pomodoro finished!!!')
+          break
+        case choice[1]:
+          new Notification('Short break finished!!!')
+          break
+        case choice[3]:
+          new Notification('Short break finished!!!')
+          break
+      }
+      const audio = new Audio('/got-it-done-613.mp3');
+      audio.play();
+    }
+
+
+  }, [timerFinished,isSelected])
 
   return (
     <React.Fragment>
@@ -279,6 +310,7 @@ export default function Home() {
           setTimerFinished={setTimerFinished}
 
         />
+
         <div className="mx-auto  neumorphismSize-lg  h-96 w-96  rounded-full nm-concave-blue-900-xl ">
           <div className=" neumorphismSize-lg  h-96 w-96  rounded-full bg-gradient-to-r from-blue-900 to-blue-800 ">
             <div className="transform scale-90  h-96 w-96 rounded-full bg-blue-900 ">
@@ -295,6 +327,7 @@ export default function Home() {
                 setTimerLength={setTimerLength}
                 setTimerFinished={setTimerFinished}
                 timerFinished={timerFinished}
+                setNotificationTitle={setNotificationTitle}
               />
             </div>
           </div>
