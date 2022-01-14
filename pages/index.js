@@ -171,13 +171,13 @@ function ToggleButton({ setTimerFinished, text, selectedText, setSelected, setTi
 
   if (text != selectedText) {
     return (
-      <button onClick={handleclick} className="m-3 whitespace-nowrap p-3 focus:outline-none hover:text-blue-600  text-blue-200 text-xl z-30  w-3/6 font-sans rounded-full">
+      <button onClick={handleclick} className="m-1 md:m-3 whitespace-nowrap p-1.5 md:p-3 focus:outline-none hover:text-blue-600  text-blue-200 text-xl z-30  w-3/6 font-sans rounded-full">
         {text}
       </button>
     )
   } else {
     return (
-      <button className="m-3 whitespace-nowrap p-3 bg-blue-500 focus:outline-none  text-blue-200 text-xl z-30  w-3/6 font-sans rounded-full">
+      <button className="m-1 md:m-3 whitespace-nowrap p-1.5 md:p-3 bg-blue-500 focus:outline-none  text-blue-200 text-xl z-30  w-3/6 font-sans rounded-full">
         {text}
       </button>
     )
@@ -190,7 +190,7 @@ function ToggleBar({ setTimerFinished, choice, isSelected, setSelected, setTimeR
   return (
     <div className="mx-auto  neumorphismSize-lg  w-auto  rounded-full nm-concave-blue-900-xl m-10 ">
       <div className=" neumorphismSize-lg w-auto  rounded-full bg-gradient-to-r from-blue-900 to-blue-800 ">
-        <div className="flex">
+        <div className="flex ">
           {choice.map(elem => <ToggleButton text={elem}
             selectedText={isSelected}
             setSelected={setSelected}
@@ -318,9 +318,9 @@ export default function Home() {
 
         />
 
-        <div className="mx-auto  neumorphismSize-lg  h-96 w-96  rounded-full nm-concave-blue-900-xl ">
-          <div className=" neumorphismSize-lg  h-96 w-96  rounded-full bg-gradient-to-r from-blue-900 to-blue-800 ">
-            <div className="transform scale-90  h-96 w-96 rounded-full bg-blue-900 ">
+        <div className="mx-auto  neumorphismSize-lg w-80 h-80 md:h-96 md:w-96  rounded-full nm-concave-blue-900-xl ">
+          <div className=" neumorphismSize-lg  w-80 h-80 md:h-96 md:w-96  rounded-full bg-gradient-to-r from-blue-900 to-blue-800 ">
+            <div className="transform scale-90  w-80 h-80 md:h-96 md:w-96 rounded-full bg-blue-900 ">
               <Pomodoro isSelected={isSelected}
                 timeRemain={timeRemain}
                 setTimeRemain={setTimeRemain}
